@@ -1,5 +1,7 @@
 const { Provider } = require('@reef-chain/evm-provider');
 const { WsProvider } = require('@polkadot/api');
+const {Contract} = require("ethers");
+const motoDexReef = require("./contracts/motoDexReef.json");
 
 const wsUrl = "wss://rpc.reefscan.com/ws";
 
@@ -14,15 +16,18 @@ const initProvider = async () => {
 
 const main = async () => {
     const provider = await initProvider();
-    const address = "5EnY9eFwEDcEJ62dJWrTXhTucJ4pzGym4WZ2xcDKiT3eJecP";
+    const contract = new Contract(motoDexReef.address,motoDexReef.abi,provider);
 
     try {
-        const accountInfo = await provider.api.query.system.account(address);
-        const freeBalance = accountInfo.data.free.toString();
-        const reservedBalance = accountInfo.data.reserved.toString();
+        const tokenIdsAndOwners = await contract.tokenIdsAndOwners();
+        console.log("tokenIdsAndOwners===",tokenIdsAndOwners);
 
-        console.log(`Free Balance: ${freeBalance}`);
-        console.log(`Reserved Balance: ${reservedBalance}`);
+        const getAllGameBids = await contract.getAllGameBids();
+        console.log("getAllGameBids===",getAllGameBids);
+
+        const getGameSessions = await contract.getGameSessions();
+        console.log("getGameSessions===",getGameSessions);
+
     } catch (error) {
         console.error("Error fetching balance:", error);
     } finally {
