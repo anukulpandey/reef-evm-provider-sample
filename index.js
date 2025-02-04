@@ -20,13 +20,13 @@ const main = async () => {
 
     try {
         const tokenIdsAndOwners = await contract.tokenIdsAndOwners();
-        console.log("tokenIdsAndOwners===",tokenIdsAndOwners);
+        console.log("tokenIdsAndOwners===",tokenIdsAndOwners[0]);
 
         const getAllGameBids = await contract.getAllGameBids();
-        console.log("getAllGameBids===",getAllGameBids);
+        console.log("getAllGameBids===",getAllGameBids[0]);
 
         const getGameSessions = await contract.getGameSessions();
-        console.log("getGameSessions===",getGameSessions);
+        console.log("getGameSessions===",getGameSessions[0]);
 
     } catch (error) {
         console.error("Error fetching balance:", error);
